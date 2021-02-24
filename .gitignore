@@ -1,0 +1,8 @@
+# Java/IntelliJ
+**/build
+**/.idea
+
+# VisualParadigm
+
+**/*.vpp.lck
+**/*.bak_*
