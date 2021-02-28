@@ -1,0 +1,21 @@
+plugins {
+    id 'java-library'
+}
+
+group 'dhbw'
+version null
+
+repositories {
+    mavenCentral()
+}
+
+task buildJar(type: Jar) {
+    project.archivesBaseName = "rabin_karp"
+
+    manifest {
+        attributes["Main-Class"] = "ScannerAlgorithm"
+    }
+
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
