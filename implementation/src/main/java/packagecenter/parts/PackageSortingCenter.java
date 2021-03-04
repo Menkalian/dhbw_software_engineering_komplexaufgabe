@@ -61,7 +61,7 @@ public class PackageSortingCenter implements IPackageSortingCenter {
         return this.sortingSystem;
     }
 
-    public class Builder {
+    public static class Builder {
         private int amountAutonomousCarSpots;
         private int amountUnloadingAreas;
         private int capacityWaitingArea;
@@ -79,7 +79,7 @@ public class PackageSortingCenter implements IPackageSortingCenter {
          * 
          * @param amount
          */
-        public void amountUnloadingAreas(int amount) {
+        public Builder amountUnloadingAreas(int amount) {
             // TODO - implement Builder.amountUnloadingAreas @Löh
             throw new UnsupportedOperationException();
         }
@@ -88,7 +88,7 @@ public class PackageSortingCenter implements IPackageSortingCenter {
          * 
          * @param capacity
          */
-        public void capacityWaitingArea(int capacity) {
+        public Builder capacityWaitingArea(int capacity) {
             // TODO - implement Builder.capacityWaitingArea @Löh
             throw new UnsupportedOperationException();
         }

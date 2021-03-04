@@ -13,14 +13,14 @@ public class Truck {
     }
 
     public class TruckTrailer {
-        private Pallet leftSide;
-        private Pallet rightSide;
+        private Pallet[] leftSide;
+        private Pallet[] rightSide;
 
-        public Pallet getLeftSide() {
+        public Pallet[] getLeftSide() {
             return this.leftSide;
         }
 
-        public Pallet getRightSide() {
+        public Pallet[] getRightSide() {
             return this.rightSide;
         }
 
