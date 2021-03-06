@@ -84,10 +84,10 @@ fun main() {
     // Pallets
     for (id in 0 until 50) {
         val palletBoxes = listOf(
-            boxesList.subList(id * 12 + 0, id * 12 + 2),
-            boxesList.subList(id * 12 + 3, id * 12 + 5),
-            boxesList.subList(id * 12 + 6, id * 12 + 8),
-            boxesList.subList(id * 12 + 9, id * 12 + 11)
+            boxesList.subList(id * 12 + 0, id * 12 + 3),
+            boxesList.subList(id * 12 + 3, id * 12 + 6),
+            boxesList.subList(id * 12 + 6, id * 12 + 9),
+            boxesList.subList(id * 12 + 9, id * 12 + 12)
         )
         pallets.add(Pallet(id + 1, palletBoxes))
     }
@@ -99,7 +99,9 @@ fun main() {
             id = (1..4).map { truckIdPool.random(rng) }.joinToString("")
         } while (trucks.containsKey(id))
 
-        trucks[id] = Truck(id, pallets.subList(i * 10 + 0, i * 10 + 4).toTypedArray(), pallets.subList(i * 10 + 5, i * 10 + 9).toTypedArray())
+        trucks[id] = Truck(id,
+                           pallets.subList(i * 10 + 0, i * 10 + 5).toTypedArray(),
+                           pallets.subList(i * 10 + 5, i * 10 + 10).toTypedArray())
     }
 
     val basePackage = File("base_package.csv")
