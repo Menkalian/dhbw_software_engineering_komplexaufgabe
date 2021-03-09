@@ -75,7 +75,7 @@ fun main() {
             id = (1..5).map { idPool.random(rng) }.joinToString("")
         } while (boxes.containsKey(id))
 
-        val boxPackages = packageList.subList(i * 40, i * 40 + 39)
+        val boxPackages = packageList.subList(i * 40, i * 40 + 40)
         boxes[id] = Box(id, boxPackages)
     }
     val boxesList = boxes.values.shuffled(rng)
