@@ -5,19 +5,15 @@ import packagecenter.incomming.Package;
 import packagecenter.parts.controlling.controlunit.ICentralControlUnit;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class InitCommand implements ICommand {
 
-    /**
-     * 
-     * @param controlUnit
-     */
-    public void execute(ICentralControlUnit controlUnit) {
+        public void execute(ICentralControlUnit controlUnit) {
 
         List<List<String>> records = new ArrayList<>();
-        try (BufferedReader brPackage = new BufferedReader(new FileReader("../resources/base_package.csv"))) {
+        try (BufferedReader brPackage = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_package.csv")))) {
             String line;
             while ((line = brPackage.readLine()) != null) {
                 String[] values = line.split(",");
@@ -38,13 +34,20 @@ public class InitCommand implements ICommand {
 
             id = records.get(i).get(0);
 
-            Stack<Character> contentChars = new Stack<>();
+            Stack<Character> tmpContent = new Stack<>();
             for (int j = 0; j < records.get(i).get(1).length(); j++) {
-                contentChars.push(records.get(i).get(1).charAt(j));
+                tmpContent.add(records.get(i).get(1).charAt(j));
+            }
+            Stack<Character> contentChars = new Stack<>();
+            while (!tmpContent.empty()) {
+                contentChars.add(tmpContent.pop());
             }
             for (int j = 0; j < 25; j++) {
                 for (int k = 0; k < 10; k++) {
                     for (int l = 0; l < 10; l++) {
+                        if(contentChars.empty()){
+                            System.out.println();
+                        }
                         content[j][k][l] = contentChars.pop();
                     }
                 }
@@ -62,7 +65,7 @@ public class InitCommand implements ICommand {
         }
 
         records.clear();
-        try (BufferedReader brBox = new BufferedReader(new FileReader("../resources/base_box.csv"))) {
+        try (BufferedReader brBox = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_box.csv")))) {
             String line;
             while ((line = brBox.readLine()) != null) {
                 String[] values = line.split(",");
@@ -93,7 +96,7 @@ public class InitCommand implements ICommand {
         }
 
         records.clear();
-        try (BufferedReader brPallet = new BufferedReader(new FileReader("../resources/base_pallet.csv"))) {
+        try (BufferedReader brPallet = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_pallet.csv")))) {
             String line;
             while ((line = brPallet.readLine()) != null) {
                 String[] values = line.split(",");
@@ -120,7 +123,7 @@ public class InitCommand implements ICommand {
         }
 
         records.clear();
-        try (BufferedReader brTruck = new BufferedReader(new FileReader("../resources/base_truck.csv"))) {
+        try (BufferedReader brTruck = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_truck.csv")))) {
             String line;
             while ((line = brTruck.readLine()) != null) {
                 String[] values = line.split(",");
