@@ -64,7 +64,7 @@ fun main() {
         println("Placed explosive in ${pckg.id}")
         val toPlace = "exp!os:ve"
         val point = rng.nextInt(pckg.content.length - toPlace.length)
-        pckg.content = pckg.content.replaceRange(point..(point + toPlace.length), toPlace)
+        pckg.content = pckg.content.replaceRange(point until (point + toPlace.length), toPlace)
     }
 
     val boxes = hashMapOf<String, Box>()
