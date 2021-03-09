@@ -1,7 +1,9 @@
+import packagecenter.command.InitCommand;
 import packagecenter.incomming.Box;
 import packagecenter.incomming.PackageType;
 import packagecenter.incomming.Package;
 import packagecenter.incomming.Pallet;
+import packagecenter.parts.controlling.controlunit.CentralControlUnit;
 
 public class testing {
     public static void main(String[] args) {
@@ -32,13 +34,10 @@ public class testing {
             box4.addPackageToBox(pack);
         }
 
-        Pallet pallet = new Pallet();
+        InitCommand command = new InitCommand();
 
-        pallet.addBoxToPallet(box1);
-        pallet.addBoxToPallet(box2);
-        pallet.addBoxToPallet(box3);
-        pallet.addBoxToPallet(box4);
+        command.execute(new CentralControlUnit());
 
-
+        System.out.println();
     }
 }
