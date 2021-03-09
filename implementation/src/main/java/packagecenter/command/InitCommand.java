@@ -29,6 +29,8 @@ public class InitCommand implements ICommand {
         PackageType type;
         double weight;
 
+        int count=0;
+
         List<Package> packages = new ArrayList<>();
         for (int i = 0; i < records.size(); i++) {
 
@@ -87,7 +89,7 @@ public class InitCommand implements ICommand {
             for (Box box : boxes) {
                 if(box.getId().equals(records.get(j).get(0))) {
                     for (int i = 0; i < packages.size(); i++) {
-                        if(packages.get(i).getId() == records.get(j).get(1)){
+                        if(packages.get(i).getId().equals(records.get(j).get(1))){
                             box.addPackageToBox(packages.get(i));
                         }
                     }
@@ -112,7 +114,7 @@ public class InitCommand implements ICommand {
         }
         for (int i = 0; i < records.size(); i++) {
             for(Pallet pallet : Pallets){
-                if(records.get(i).get(0).equals(pallet.getId())) {
+                if(Integer.valueOf(records.get(i).get(0)) == pallet.getId()) {
                     for (int j = 0; j < boxes.size(); j++) {
                         if(records.get(i).get(3).equals(boxes.get(j).getId())){
                             pallet.addBoxToPallet(boxes.get(j), Integer.valueOf(records.get(i).get(1)), Integer.valueOf(records.get(i).get(2)));
@@ -145,15 +147,13 @@ public class InitCommand implements ICommand {
             for (Truck truck : Trucks){
                 if (records.get(i).get(0).equals(truck.getId())){
                     for (int j = 0; j < Pallets.size(); j++) {
-                        if(records.get(i).get(3).equals(Pallets.get(j).getId())){
+                        if(Integer.valueOf(records.get(i).get(3)) == Pallets.get(j).getId()){
                             truck.addPalletToTruck(Pallets.get(j), records.get(i).get(1), Integer.valueOf(records.get(i).get(2)));
                         }
                     }
                 }
             }
         }
-
-        System.out.println();
     }
 
     public CommandType getType() {

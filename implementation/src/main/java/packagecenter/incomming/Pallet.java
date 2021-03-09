@@ -5,7 +5,7 @@ import java.util.Deque;
 
 public class Pallet {
     private int id;
-    private int lastId=0;
+    private static int lastId=0;
     private PalletPosition[][] positions = {{new PalletPosition(), new PalletPosition()},{new PalletPosition(), new PalletPosition()}};
 
     public int getId() {
