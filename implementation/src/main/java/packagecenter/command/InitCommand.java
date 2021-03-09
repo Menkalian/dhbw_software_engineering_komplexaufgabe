@@ -12,7 +12,7 @@ import java.util.*;
 public class InitCommand implements ICommand {
 
     /**
-     * 
+     *
      * @param controlUnit
      */
     public void execute(ICentralControlUnit controlUnit) {
