@@ -17,26 +17,40 @@ public class Pallet {
     }
 
     public static class PalletPosition {
-        private final Deque<Box> boxes = new ArrayDeque<>(3);
+        private final Box[] boxes = new Box[3];
 
-        public Deque<Box> getBoxes() {
+        public Box[] getBoxes() {
             return this.boxes;
         }
 
-        public boolean addBoxToPalletPosition(Box box){
-            if(boxes.size()<3) {
-                boxes.add(box);
+        public boolean addBoxToPalletPosition(Box box, int level){
+            if(level<4 && level >= 0) {
+                boxes[level] = box;
                 return true;
             } return false;
         }
     }
 
-    public boolean addBoxToPallet(Box box){
-        for(int i = 0; i<2; i++){
-            for (int j = 0; j < 2; j++) {
-                if(positions[i][j].addBoxToPalletPosition(box)) return true;
-            }
-        } return false;
+    public boolean addBoxToPallet(Box box, int position, int level){
+        if(position == 0){
+            if(positions[0][0].addBoxToPalletPosition(box, level))
+                return true;
+        }
+        if(position == 1){
+            if(positions[0][1].addBoxToPalletPosition(box, level))
+                return true;
+        }
+        if(position == 2){
+            if(positions[1][0].addBoxToPalletPosition(box, level))
+                return true;
+        }
+        if(position == 3){
+            if(positions[1][1].addBoxToPalletPosition(box, level))
+                return true;
+        }
+
+
+        return false;
     }
 
     public Pallet(){
