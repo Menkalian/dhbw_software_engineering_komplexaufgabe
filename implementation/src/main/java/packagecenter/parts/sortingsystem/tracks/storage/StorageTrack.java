@@ -3,6 +3,8 @@ package packagecenter.parts.sortingsystem.tracks.storage;
 import packagecenter.incomming.Package;
 import packagecenter.parts.sortingsystem.tracks.storage.sensor.IStorageTrackSensor;
 
+import java.util.LinkedList;
+
 public class StorageTrack implements IStorageTrack {
     private java.util.Deque<Package> packages;
     private IStorageTrackSensor sensor;
@@ -11,31 +13,22 @@ public class StorageTrack implements IStorageTrack {
         return this.packages;
     }
 
-    /**
-     * 
-     * @param pkg
-     */
     public void store(Package pkg) {
-        // TODO - implement StorageTrack.store @Löh
-        throw new UnsupportedOperationException();
+        if(packages.size()<600)
+            packages.add(pkg);
     }
 
     public Package getPackage() {
-        // TODO - implement StorageTrack.getPackage @Löh
-        throw new UnsupportedOperationException();
+        if(packages.size()>0) return packages.pop();
+            else return null;
     }
 
-    /**
-     * 
-     * @param sensor
-     */
     public StorageTrack(IStorageTrackSensor sensor) {
-        // TODO - implement StorageTrack.StorageTrack @Löh
-        throw new UnsupportedOperationException();
+        this.sensor = sensor;
+        packages = new LinkedList<>();
     }
 
     public IStorageTrackSensor getSensor() {
         return this.sensor;
     }
-
 }

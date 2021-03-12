@@ -35,16 +35,13 @@ public class SortingSystem implements ISortingSystem {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * 
-     * @param tempStorage
-     * @param emptyBoxesStorage
-     * @param emptyPalletStorage
-     * @param storageTracks
-     */
-    public SortingSystem(ITempStorageArea tempStorage, IEmptyBoxesStorage emptyBoxesStorage, IEmptyPalletStorage emptyPalletStorage, List<IStorageTrack> storageTracks) {
+    public SortingSystem(ITempStorageArea tempStorage, IEmptyBoxesStorage emptyBoxesStorage, IEmptyPalletStorage emptyPalletStorage, List<IStorageTrack> storageTracks, List<SortingTrack> sortingTracks) {
         // TODO - implement SortingSystem.SortingSystem @Löh
-        throw new UnsupportedOperationException();
+        this.tempStorageArea = tempStorage;
+        this.emptyBoxesStorage = emptyBoxesStorage;
+        this.emptyPalletStorage = emptyPalletStorage;
+        this.storageTracks = storageTracks;
+        this.sortingTracks = sortingTracks;
     }
 
     public boolean isLocked() {
@@ -55,9 +52,8 @@ public class SortingSystem implements ISortingSystem {
         return this.tempStorageArea;
     }
 
-    public void getEmptyBoxesStorage() {
-        // TODO - implement SortingSystem.getEmptyBoxesStorage @Löh
-        throw new UnsupportedOperationException();
+    public IEmptyBoxesStorage getEmptyBoxesStorage() {
+        return emptyBoxesStorage;
     }
 
     public IEmptyPalletStorage getEmptyPalletStorage() {
@@ -69,8 +65,7 @@ public class SortingSystem implements ISortingSystem {
     }
 
     public List<SortingTrack> getSortingTracks() {
-        // TODO - implement SortingSystem.getSortingTracks @Löh
-        throw new UnsupportedOperationException();
+        return sortingTracks;
     }
 
 }

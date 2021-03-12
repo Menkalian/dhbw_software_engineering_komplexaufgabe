@@ -7,13 +7,6 @@ public abstract class Storage<T> {
         return this.stored;
     }
 
-    /**
-     * 
-     * @param element
-     */
-    public void store(T element) {
-        // TODO - implement Storage.store @Löh
-        throw new UnsupportedOperationException();
-    }
+    public abstract void store(T element);
 
 }

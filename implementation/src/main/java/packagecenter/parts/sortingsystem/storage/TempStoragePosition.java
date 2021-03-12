@@ -6,22 +6,19 @@ public class TempStoragePosition implements ITempStoragePosition {
     private java.util.Deque<Pallet> pallets;
 
     public int getCapacity() {
-        // TODO - implement TempStoragePosition.getCapacity @Löh
-        throw new UnsupportedOperationException();
+        return 2-pallets.size();
     }
 
-    /**
-     * 
-     * @param pallet
-     */
     public void store(Pallet pallet) {
-        // TODO - implement TempStoragePosition.store @Löh
-        throw new UnsupportedOperationException();
+        if(pallets.size()<2){
+            pallets.add(pallet);
+        }
     }
 
     public Pallet take() {
-        // TODO - implement TempStoragePosition.take @Löh
-        throw new UnsupportedOperationException();
+        if(pallets.size()>0){
+            return pallets.pop();
+        }else return null;
     }
 
 }

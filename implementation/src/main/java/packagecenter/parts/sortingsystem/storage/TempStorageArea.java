@@ -5,18 +5,12 @@ import java.util.List;
 public class TempStorageArea implements ITempStorageArea {
     private final java.util.List<ITempStoragePosition> positions;
 
-    /**
-     * 
-     * @param positions
-     */
     public TempStorageArea(java.util.List<ITempStoragePosition> positions) {
-        // TODO - implement TempStorageArea.TempStorageArea @Löh
-        throw new UnsupportedOperationException();
+        this.positions = positions;
     }
 
     public List<ITempStoragePosition> getPositions() {
-        // TODO - implement TempStorageArea.getPositions @Löh
-        throw new UnsupportedOperationException();
+        return positions;
     }
 
 }

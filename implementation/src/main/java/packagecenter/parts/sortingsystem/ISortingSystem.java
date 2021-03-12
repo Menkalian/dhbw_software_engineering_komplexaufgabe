@@ -16,7 +16,7 @@ public interface ISortingSystem {
 
     ITempStorageArea getTempStorageArea();
 
-    void getEmptyBoxesStorage();
+    IEmptyBoxesStorage getEmptyBoxesStorage();
 
     IEmptyPalletStorage getEmptyPalletStorage();
 

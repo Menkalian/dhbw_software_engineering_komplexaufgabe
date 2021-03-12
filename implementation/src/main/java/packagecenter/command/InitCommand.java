@@ -154,6 +154,8 @@ public class InitCommand implements ICommand {
                 }
             }
         }
+        // TODO - Park Trucks in TruckWaitingArea
+
     }
 
     public CommandType getType() {
