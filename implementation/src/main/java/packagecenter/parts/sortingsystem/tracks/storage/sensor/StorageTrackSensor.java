@@ -17,9 +17,9 @@ public class StorageTrackSensor {
     }
 
     public void packagesStored(int amount) {
-
-        // TODO - implement StorageTrackSensor.packagesStored @Löh
-        throw new UnsupportedOperationException();
+        if(amount >= 600) {
+            listeners.forEach(ISensorListener::onTrackFull);
+        }
     }
 
 }
