@@ -6,26 +6,25 @@ import packagecenter.parts.sortingsystem.tracks.storage.sensor.IStorageTrackSens
 import java.util.LinkedList;
 
 public class StorageTrack implements IStorageTrack {
-    private java.util.Deque<Package> packages;
-    private IStorageTrackSensor sensor;
+    private final java.util.Deque<Package> packages;
+    private final IStorageTrackSensor sensor;
+
+    public StorageTrack(IStorageTrackSensor sensor) {
+        this.sensor = sensor;
+        packages = new LinkedList<>();
+    }
 
     public java.util.Deque<Package> getPackages() {
         return this.packages;
     }
 
     public void store(Package pkg) {
-        if(packages.size()<600)
-            packages.add(pkg);
+        packages.add(pkg);
+        sensor.packagesStored(packages.size());
     }
 
     public Package getPackage() {
-        if(packages.size()>0) return packages.pop();
-            else return null;
-    }
-
-    public StorageTrack(IStorageTrackSensor sensor) {
-        this.sensor = sensor;
-        packages = new LinkedList<>();
+        return packages.pollLast();
     }
 
     public IStorageTrackSensor getSensor() {
