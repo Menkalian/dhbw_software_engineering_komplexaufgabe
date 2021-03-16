@@ -9,13 +9,13 @@ public class ScannerAlgorithm {
     }
 
     // TODO
-    String innerGetVersion(){return "";}
-    int innerScan(String toSearch, byte[][][] toScan){return -1;}
+    public String innerGetVersion(){return "";}
+    public int innerScan(String toSearch, char[][][] toScan){return -1;}
 
     public class Port implements IScannerAlgorithm {
         @Override
-        String getVersion(){return innerGetVersion();}
+        public String getVersion(){return innerGetVersion();}
         @Override
-        int scan(String toSearch, byte[][][] toScan){return innerScan(toSearch, toScan);}
+        public int scan(String toSearch, char[][][] toScan){return innerScan(toSearch, toScan);}
     }
 }

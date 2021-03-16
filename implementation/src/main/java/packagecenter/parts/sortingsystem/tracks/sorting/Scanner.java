@@ -41,19 +41,12 @@ public class Scanner implements IScanner {
 
     public boolean scan(Package pkg) {
         String explosive = "exp!os:ve";
-        char[][][] original = pkg.getContent();
-        byte[][][] toScan = new byte[original.length][original[0].length][original[0][0].length];
-
-        for (int i = 0 ; i < original.length ; i++)
-            for (int j = 0 ; j < original[i].length ; j++)
-                for (int k = 0 ; k < original[i][j].length ; k++)
-                    toScan[i][j][k] = (byte) original[i][j][k];
 
         try {
             int position = (int) scannerAlgorithmPort
                     .getClass()
-                    .getDeclaredMethod("scan", String.class, byte[][][].class)
-                    .invoke(scannerAlgorithmPort, explosive, toScan);
+                    .getDeclaredMethod("scan", String.class, char[][][].class)
+                    .invoke(scannerAlgorithmPort, explosive, pkg.getContent());
             return position != -1;
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
