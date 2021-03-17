@@ -28,9 +28,9 @@ public class ScannerAlgorithm {
 
 
         int x = text[0][0].length;
-        int y = x * text[0].length;
+        int y = text[0].length;
         for (int i = 0 ; i < n ; i++) {
-            txt[i] = text[i / y][i / x][i % x];
+            txt[i] = text[i / (x * y)][(i / x) % y][i % x];
         }
 
         int[] badChars = heuristic(pat);

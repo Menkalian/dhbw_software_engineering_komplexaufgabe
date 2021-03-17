@@ -22,8 +22,8 @@ public class ScannerAlgorithm {
         int n = text.length * text[0].length * text[0][0].length;
 
         int x = text[0][0].length;
-        int y = x * text[0].length;
-        Function<Integer, Character> txtAt = i -> text[i / y][i / x][i % x];
+        int y = text[0].length;
+        Function<Integer, Character> txtAt = i -> text[i / (x * y)][(i / x) % y][i % x];
 
         int p = 0; // Hash value of the pattern
         int t = 0; // Hash value of the  current textwindow
