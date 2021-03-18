@@ -1,9 +1,12 @@
 package packagecenter.parts.sortingsystem.tracks.storage.sensor;
 
-import packagecenter.parts.sortingsystem.tracks.storage.sensor.IStorageTrackSensor.*;
+import packagecenter.parts.sortingsystem.tracks.storage.sensor.IStorageTrackSensor.ISensorListener;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class StorageTrackSensor {
-    private java.util.List<ISensorListener> listeners;
+    private final List<ISensorListener> listeners = new LinkedList<>();
 
     public void addListener(ISensorListener listener) {
         listeners.add(listener);
@@ -14,8 +17,9 @@ public class StorageTrackSensor {
     }
 
     public void packagesStored(int amount) {
-        // TODO - implement StorageTrackSensor.packagesStored @Löh
-        throw new UnsupportedOperationException();
+        if(amount >= 600) {
+            listeners.forEach(ISensorListener::onTrackFull);
+        }
     }
 
 }
