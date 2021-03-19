@@ -1,7 +1,6 @@
 package packagecenter.parts.controlling.terminal;
 
 import packagecenter.command.ICommand;
-import packagecenter.employee.*;
 
 public interface ITerminal {
 
@@ -16,9 +15,9 @@ public interface ITerminal {
     void sendCommand(ICommand command);
 
     /**
-     * 
-     * @param employee
+     *
+     * @param type
      */
-    void setCurrentEmployee(Employee employee);
+    void setCurrentEmployeeType(String type);
 
 }

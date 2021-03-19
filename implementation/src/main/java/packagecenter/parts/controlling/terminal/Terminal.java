@@ -1,17 +1,16 @@
 package packagecenter.parts.controlling.terminal;
 
 import packagecenter.command.ICommand;
-import packagecenter.employee.Employee;
 import packagecenter.parts.controlling.controlunit.IControlUnit;
 
 public class Terminal implements ITerminal {
     private final ICardReader cardReader;
     private final ITouchPad touchPad;
-    private Employee currentEmployee;
+    private String currentType;
     private final IControlUnit controlUnit;
 
     public void sendCommand(ICommand command) {
-        controlUnit.executeCommand(command, currentEmployee);
+        controlUnit.executeCommand(command, currentType);
     }
 
     public Terminal(IControlUnit controlUnit) {
@@ -28,8 +27,8 @@ public class Terminal implements ITerminal {
         return this.touchPad;
     }
 
-    public void setCurrentEmployee(Employee employee) {
-        this.currentEmployee = employee;
+    public void setCurrentEmployeeType(String type) {
+        this.currentType = type;
     }
 
 }

@@ -3,7 +3,6 @@ package packagecenter.parts.controlling.controlunit;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import packagecenter.command.ICommand;
-import packagecenter.employee.Employee;
 import packagecenter.event.*;
 import packagecenter.event.delivery.*;
 import packagecenter.event.sorting.StartFillingEvent;
@@ -62,7 +61,7 @@ public class CentralControlUnit implements ICentralControlUnit {
     }
 
     @Override
-    public void executeCommand(ICommand command, Employee user) {
+    public void executeCommand(ICommand command, String usertype) {
         command.execute(this);
     }
 

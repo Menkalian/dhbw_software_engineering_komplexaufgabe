@@ -23,11 +23,7 @@ public class CardReader implements ICardReader {
             String str = new String(encrypted, StandardCharsets.UTF_8);
             String decrypted = Configuration.INSTANCE.decryptionStrategy.decrypt(str, Configuration.INSTANCE.idCardEncryptionKey);
 
-            String[] strArr = decrypted.split(";");
-            //ToDo: employeeId -> Employee
-            //terminal.setCurrentEmployee(strArr[0]);
-
-            terminal.setCurrentEmployee(null);
+            terminal.setCurrentEmployeeType(decrypted.split(";")[2]);
         }
         return lastCardSwept.checkPIN(pin);
     }
