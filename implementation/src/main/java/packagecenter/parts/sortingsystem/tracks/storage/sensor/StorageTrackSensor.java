@@ -5,7 +5,7 @@ import packagecenter.parts.sortingsystem.tracks.storage.sensor.IStorageTrackSens
 import java.util.LinkedList;
 import java.util.List;
 
-public class StorageTrackSensor {
+public class StorageTrackSensor implements IStorageTrackSensor{
     private final List<ISensorListener> listeners = new LinkedList<>();
 
     public void addListener(ISensorListener listener) {

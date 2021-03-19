@@ -10,17 +10,18 @@ public class ParkingZone implements IParkingZone {
     }
 
     public int parkCar(IAutonomousCar car) {
-        // TODO - implement ParkingZone.parkCar @Löh
-        throw new UnsupportedOperationException();
+        for (int i = 0; i < cars.length; i++) {
+            if(cars[i] == null){
+                cars[i] = car;
+                car.setCurrentSpotId(i);
+                return i;
+            }
+        }
+        throw new RuntimeException();
     }
 
-    /**
-     * 
-     * @param spot
-     */
     public void carLeaving(int spot) {
-        // TODO - implement ParkingZone.carLeaving @Löh
-        throw new UnsupportedOperationException();
+        cars[spot]= null;
     }
 
 }

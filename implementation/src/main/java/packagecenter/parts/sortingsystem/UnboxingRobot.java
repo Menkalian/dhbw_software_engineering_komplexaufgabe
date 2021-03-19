@@ -1,5 +1,8 @@
 package packagecenter.parts.sortingsystem;
 
+import com.google.common.eventbus.Subscribe;
+import packagecenter.incomming.Box;
+import packagecenter.incomming.Package;
 import packagecenter.parts.controlling.controlunit.*;
 import packagecenter.event.sorting.*;
 
@@ -10,22 +13,22 @@ public class UnboxingRobot extends Subscriber implements IUnboxingRobot {
         return this.sortingSystem;
     }
 
-    /**
-     * 
-     * @param system
-     */
     public UnboxingRobot(ISortingSystem system) {
-        // TODO - implement UnboxingRobot.UnboxingRobot @Löh
-        throw new UnsupportedOperationException();
+        this.sortingSystem = system;
     }
 
-    /**
-     *  @Subscribe
-     * @param event
-     */
+    @Subscribe
     public void onStartFillingEvent(StartFillingEvent event) {
-        // TODO - implement UnboxingRobot.onStartFillingEvent @Löh
-        throw new UnsupportedOperationException();
+        // Place 600 Packages
+        for (int i = 0; i < 600; i++) {
+            // Look for non-empty positions in temporary storage
+            for (int j = 0; j < 5; j++) {
+                if(event.getPackageSortingCenter().getSortingSystem().getTempStorageArea().getPositions().get(j).getCapacity() < 2){
+                    for(Box box : event.getPackageSortingCenter().getSortingSystem().getTempStorageArea().getPositions().get(j).take().getBoxes())
+                        for(Package pack : box.getPackages())
+                            event.getPackageSortingCenter().getSortingSystem().getStorageTracks().get(event.getCurrentTrackId()).store(pack);
+                    }
+                }
+            }
+        }
     }
-
-}

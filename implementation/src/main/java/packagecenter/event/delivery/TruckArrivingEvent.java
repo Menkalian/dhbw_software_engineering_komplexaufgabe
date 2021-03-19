@@ -9,10 +9,6 @@ public class TruckArrivingEvent extends Event {
         return this.areaId;
     }
 
-    /**
-     * 
-     * @param areaId
-     */
     public TruckArrivingEvent(int areaId) {
         // TODO - implement TruckArrivingEvent.TruckArrivingEvent @Löh
         throw new UnsupportedOperationException();

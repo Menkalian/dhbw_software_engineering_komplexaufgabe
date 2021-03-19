@@ -4,14 +4,18 @@ import packagecenter.parts.controlling.controlunit.*;
 import packagecenter.incomming.*;
 import packagecenter.event.delivery.*;
 
+import java.util.List;
+
 public class AutonomousCar extends Subscriber implements IAutonomousCar {
+    private String id;
     private int currentSpotId;
     private Pallet loadedPallet;
 
-    /**
-     * @Subscribe
-     * @param event
-     */
+    public void setCurrentSpotId(int currentSpotId) {
+        this.currentSpotId = currentSpotId;
+    }
+
+    @Subscribe
     public void onUnloadTruck(UnloadTruckEvent event) {
         // TODO - implement AutonomousCar.onUnloadTruck @Löh
         throw new UnsupportedOperationException();
@@ -26,4 +30,8 @@ public class AutonomousCar extends Subscriber implements IAutonomousCar {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public String getId() {
+        return id;
+    }
 }

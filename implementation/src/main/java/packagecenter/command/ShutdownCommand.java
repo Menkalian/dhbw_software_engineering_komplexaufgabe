@@ -9,13 +9,14 @@ public class ShutdownCommand implements ICommand {
      * @param controlUnit
      */
     public void execute(ICentralControlUnit controlUnit) {
-        // TODO - implement ShutdownCommand.execute @Löh
-        throw new UnsupportedOperationException();
+        for (int i = 0; i < 7; i++) {
+            controlUnit.getPackageSortingCenter().getUnloadingArea(i).getSensor().deactivate();
+            controlUnit.getPackageSortingCenter().getSortingSystem().getSortingTracks().stream().map(SortingTrack::getScanner).forEach(IScanner::unloadScanComponent);
+        }
     }
 
     public CommandType getType() {
-        // TODO - implement ShutdownCommand.getType @Löh
-        throw new UnsupportedOperationException();
+        return CommandType.SHUTDOWN;
     }
 
 }

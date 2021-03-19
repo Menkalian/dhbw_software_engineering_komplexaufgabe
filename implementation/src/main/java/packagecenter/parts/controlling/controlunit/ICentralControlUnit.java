@@ -1,5 +1,7 @@
 package packagecenter.parts.controlling.controlunit;
 
+import packagecenter.parts.IPackageSortingCenter;
+
 public interface ICentralControlUnit extends IControlUnit {
 
     /**
@@ -13,5 +15,10 @@ public interface ICentralControlUnit extends IControlUnit {
      * @param event
      */
     void publish(Object event);
+
+    IPackageSortingCenter getPackageSortingCenter();
+
+    void setPackageSortingCenter(IPackageSortingCenter packageSortingCenter);
+
 
 }

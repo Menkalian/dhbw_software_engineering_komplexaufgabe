@@ -13,5 +13,4 @@ public class StartFillingEvent extends Event {
         // TODO - implement StartFillingEvent.StartFillingEvent @Löh
         throw new UnsupportedOperationException();
     }
-
 }

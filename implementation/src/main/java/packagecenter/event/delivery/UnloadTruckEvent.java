@@ -1,10 +1,12 @@
 package packagecenter.event.delivery;
 
 import packagecenter.event.*;
+import packagecenter.parts.IPackageSortingCenter;
 
 public class UnloadTruckEvent extends Event {
-    private String carId;
-    private int areaId;
+    private final String carId;
+    private final int areaId;
+    private final IPackageSortingCenter packageSortingCenter;
 
     public String getCarId() {
         return this.carId;
@@ -14,14 +16,14 @@ public class UnloadTruckEvent extends Event {
         return this.areaId;
     }
 
-    /**
-     * 
-     * @param carId
-     * @param areaId
-     */
-    public UnloadTruckEvent(String carId, int areaId) {
-        // TODO - implement UnloadTruckEvent.UnloadTruckEvent @Löh
-        throw new UnsupportedOperationException();
+    public IPackageSortingCenter getPackageSortingCenter() {
+        return packageSortingCenter;
+    }
+
+    public UnloadTruckEvent(String carId, int areaId, IPackageSortingCenter packageSortingCenter) {
+        this.carId = carId;
+        this.areaId = areaId;
+        this.packageSortingCenter = packageSortingCenter;
     }
 
 }

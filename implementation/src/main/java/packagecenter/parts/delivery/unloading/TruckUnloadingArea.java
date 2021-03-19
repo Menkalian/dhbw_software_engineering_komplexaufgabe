@@ -26,8 +26,8 @@ public class TruckUnloadingArea implements ITruckUnloadingArea {
      * @param truck
      */
     public void truckArriving(Truck truck) {
-        // TODO - implement TruckUnloadingArea.truckArriving @Löh
-        throw new UnsupportedOperationException();
+        currentTruck = truck;
+        sensor.truckArriving();
     }
 
     public void truckLeaving() {

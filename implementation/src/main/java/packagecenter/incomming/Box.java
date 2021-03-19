@@ -15,9 +15,20 @@ public class Box {
         return this.layers;
     }
 
-    public class BoxLayer {
-        private List<Package> leftSide = new ArrayList<>();
-        private List<Package> rightSide = new ArrayList<>();
+    public List<Package> getPackages(){
+        List<Package> packageList = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            packageList.addAll(layers[i].leftSide);
+            packageList.addAll(layers[i].rightSide);
+        }
+
+        return packageList;
+    }
+
+    public static class BoxLayer {
+        private final List<Package> leftSide = new ArrayList<>();
+        private final List<Package> rightSide = new ArrayList<>();
 
         public List<Package> getLeftSide() {
             return this.leftSide;

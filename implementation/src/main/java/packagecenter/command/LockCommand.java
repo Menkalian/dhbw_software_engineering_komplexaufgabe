@@ -9,8 +9,7 @@ public class LockCommand implements ICommand {
      * @param controlUnit
      */
     public void execute(ICentralControlUnit controlUnit) {
-        // TODO - implement LockCommand.execute @Löh
-        throw new UnsupportedOperationException();
+        controlUnit.getPackageSortingCenter().getSortingSystem().lock();
     }
 
     public CommandType getType() {

@@ -24,4 +24,5 @@ public interface ISortingSystem {
 
     List<SortingTrack> getSortingTracks();
 
+    IUnboxingRobot getRobot();
 }

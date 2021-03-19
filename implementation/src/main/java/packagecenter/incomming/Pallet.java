@@ -1,7 +1,7 @@
 package packagecenter.incomming;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pallet {
     private int id;
@@ -14,6 +14,19 @@ public class Pallet {
 
     public PalletPosition[][] getPositions() {
         return this.positions;
+    }
+
+    public List<Box> getBoxes() {
+        List<Box> boxList = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            if (positions[0][0].boxes[i] != null) boxList.add(positions[0][0].boxes[i]);
+            if (positions[0][1].boxes[i] != null) boxList.add(positions[0][1].boxes[i]);
+            if (positions[1][0].boxes[i] != null) boxList.add(positions[1][0].boxes[i]);
+            if (positions[1][1].boxes[i] != null) boxList.add(positions[1][1].boxes[i]);
+        }
+
+        return boxList;
     }
 
     public static class PalletPosition {

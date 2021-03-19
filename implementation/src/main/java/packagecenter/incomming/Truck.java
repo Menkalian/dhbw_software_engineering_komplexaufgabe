@@ -1,5 +1,8 @@
 package packagecenter.incomming;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Truck {
     private String id;
     private TruckTrailer trailer;
@@ -12,9 +15,26 @@ public class Truck {
         return this.trailer;
     }
 
-    public class TruckTrailer {
-        private Pallet[] leftSide = new Pallet[5];
-        private Pallet[] rightSide = new Pallet[5];
+    public List<Pallet> getPallets() {
+        List<Pallet> palletList = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            if(trailer.leftSide[i] != null) {
+                palletList.add(trailer.leftSide[i]);
+                trailer.leftSide[i] = null;
+            }
+            if(trailer.rightSide[i] != null) {
+                palletList.add(trailer.rightSide[i]);
+                trailer.rightSide[i] = null;
+            }
+        }
+
+        return palletList;
+    }
+
+    public static class TruckTrailer {
+        private final Pallet[] leftSide = new Pallet[5];
+        private final Pallet[] rightSide = new Pallet[5];
 
         public Pallet[] getLeftSide() {
             return this.leftSide;

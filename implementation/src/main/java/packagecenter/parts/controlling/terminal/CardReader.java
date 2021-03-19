@@ -1,6 +1,9 @@
 package packagecenter.parts.controlling.terminal;
 
+import packagecenter.config.Configuration;
 import packagecenter.employee.card.*;
+
+import java.nio.charset.StandardCharsets;
 
 public class CardReader implements ICardReader {
     private ITerminal terminal;
