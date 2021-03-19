@@ -5,19 +5,10 @@ import packagecenter.parts.delivery.unloading.*;
 public class ParkingZone implements IParkingZone {
     private IAutonomousCar[] cars;
 
-    /**
-     * 
-     * @param amountParkingSpots
-     */
     public ParkingZone(int amountParkingSpots) {
-        // TODO - implement ParkingZone.ParkingZone @Löh
-        throw new UnsupportedOperationException();
+        cars = new IAutonomousCar[amountParkingSpots];
     }
 
-    /**
-     * 
-     * @param car
-     */
     public int parkCar(IAutonomousCar car) {
         // TODO - implement ParkingZone.parkCar @Löh
         throw new UnsupportedOperationException();

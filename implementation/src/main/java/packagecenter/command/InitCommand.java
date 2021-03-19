@@ -159,8 +159,7 @@ public class InitCommand implements ICommand {
     }
 
     public CommandType getType() {
-        // TODO - implement InitCommand.getType @Löh
-        throw new UnsupportedOperationException();
+        return CommandType.INIT;
     }
 
 }

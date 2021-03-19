@@ -15,15 +15,17 @@ public abstract class Employee {
         return this.name;
     }
 
-    /**
-     * 
-     * @param id
-     * @param name
-     * @param idCard
-     */
-    public Employee(int id, String name, IIDCard idCard) {
-        // TODO - implement Employee.Employee @Löh
-        throw new UnsupportedOperationException();
+    public IIDCard getIdCard(){
+        return idCard;
+    }
+
+    public void setIdCard(IIDCard idCard) {
+        this.idCard = idCard;
+    }
+
+    public Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
 }

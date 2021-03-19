@@ -14,8 +14,7 @@ public class ShowStatisticsCommand implements ICommand {
     }
 
     public CommandType getType() {
-        // TODO - implement ShowStatisticsCommand.getType @Löh
-        throw new UnsupportedOperationException();
+        return CommandType.SHOW_STATISTICS;
     }
 
 }

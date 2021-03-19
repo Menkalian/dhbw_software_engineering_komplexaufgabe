@@ -14,8 +14,7 @@ public class LockCommand implements ICommand {
     }
 
     public CommandType getType() {
-        // TODO - implement LockCommand.getType @Löh
-        throw new UnsupportedOperationException();
+        return CommandType.LOCK;
     }
 
 }

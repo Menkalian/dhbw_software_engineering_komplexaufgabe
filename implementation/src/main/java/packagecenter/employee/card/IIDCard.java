@@ -8,7 +8,7 @@ public interface IIDCard {
      * 
      * @param input
      */
-    void checkPIN(String input);
+    boolean checkPIN(String input);
 
     IDCardState getState();
 

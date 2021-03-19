@@ -14,8 +14,7 @@ public class NextCommand implements ICommand {
     }
 
     public CommandType getType() {
-        // TODO - implement NextCommand.getType @Löh
-        throw new UnsupportedOperationException();
+        return CommandType.NEXT;
     }
 
 }
