@@ -18,4 +18,6 @@ public interface IIDCard {
      */
     void setState(IDCardState state);
 
+    byte[][] getStripe();
+
 }

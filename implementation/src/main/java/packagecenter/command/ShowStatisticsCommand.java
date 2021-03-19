@@ -11,10 +11,6 @@ import java.io.PrintWriter;
 
 public class ShowStatisticsCommand implements ICommand {
 
-    /**
-     * 
-     * @param controlUnit
-     */
     public void execute(ICentralControlUnit controlUnit) {
 
         ISortingSystem sortingSystem = controlUnit.getPackageSortingCenter().getSortingSystem();

@@ -1,30 +1,23 @@
 package packagecenter.parts.sortingsystem.tracks.sorting;
 
+import java.util.Arrays;
+
 public enum SearchAlgorithm {
     BOYER_MOORE("bm"),
     RABIN_KARP("rk");
-    private String signature;
+    private final String signature;
 
     public String getSignature() {
         return this.signature;
     }
 
-    /**
-     * 
-     * @param signature
-     */
     SearchAlgorithm(String signature) {
-        // TODO - implement SearchAlgorithm.SearchAlgorithm @Löh
-        throw new UnsupportedOperationException();
+        this.signature = signature;
     }
 
-    /**
-     * 
-     * @param signature
-     */
+
     public static SearchAlgorithm getBySignature(String signature) {
-        // TODO - implement SearchAlgorithm.getBySignature @Löh
-        throw new UnsupportedOperationException();
+        return Arrays.stream(values()).filter(algo -> algo.getSignature().equals(signature)).findFirst().orElse(null);
     }
 
 }

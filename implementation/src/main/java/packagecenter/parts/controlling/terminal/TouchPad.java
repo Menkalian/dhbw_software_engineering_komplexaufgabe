@@ -1,56 +1,41 @@
 package packagecenter.parts.controlling.terminal;
 
+import packagecenter.command.*;
 import packagecenter.parts.sortingsystem.tracks.sorting.SearchAlgorithm;
 
 public class TouchPad implements ITouchPad {
-    private ITerminal terminal;
+    private final ITerminal terminal;
 
     public void init() {
-        // TODO - implement TouchPad.init @Löh
-        throw new UnsupportedOperationException();
+        terminal.sendCommand(new InitCommand());
     }
 
     public void next() {
-        // TODO - implement TouchPad.next @Löh
-        throw new UnsupportedOperationException();
+        terminal.sendCommand(new NextCommand());
     }
 
     public void shutdown() {
-        // TODO - implement TouchPad.shutdown @Löh
-        throw new UnsupportedOperationException();
+        terminal.sendCommand(new ShutdownCommand());
     }
 
     public void lock() {
-        // TODO - implement TouchPad.lock @Löh
-        throw new UnsupportedOperationException();
+        terminal.sendCommand(new LockCommand());
     }
 
     public void unlock() {
-        // TODO - implement TouchPad.unlock @Löh
-        throw new UnsupportedOperationException();
+        terminal.sendCommand(new UnlockCommand());
     }
 
     public void showStatistics() {
-        // TODO - implement TouchPad.showStatistics @Löh
-        throw new UnsupportedOperationException();
+        terminal.sendCommand(new ShowStatisticsCommand());
     }
 
-    /**
-     * 
-     * @param algorithm
-     */
     public void changeAlgorithm(SearchAlgorithm algorithm) {
-        // TODO - implement TouchPad.changeAlgorithm @Löh
-        throw new UnsupportedOperationException();
+        terminal.sendCommand(new ChangeAlgorithmCommand(algorithm));
     }
 
-    /**
-     * 
-     * @param terminal
-     */
     public TouchPad(ITerminal terminal) {
-        // TODO - implement TouchPad.TouchPad @Löh
-        throw new UnsupportedOperationException();
+        this.terminal = terminal;
     }
 
 }

@@ -1,10 +1,10 @@
 package packagecenter.parts.delivery.unloading;
 
-import packagecenter.incomming.*;
-import packagecenter.parts.delivery.unloading.sensor.*;
+import packagecenter.incomming.Truck;
+import packagecenter.parts.delivery.unloading.sensor.ITruckUnloadingAreaSensor;
 
 public class TruckUnloadingArea implements ITruckUnloadingArea {
-    private int id;
+    private final int id;
     private Truck currentTruck;
     private ITruckUnloadingAreaSensor sensor;
 
@@ -12,27 +12,17 @@ public class TruckUnloadingArea implements ITruckUnloadingArea {
         this.sensor = sensor;
     }
 
-    /**
-     * 
-     * @param id
-     */
     public TruckUnloadingArea(int id) {
-        // TODO - implement TruckUnloadingArea.TruckUnloadingArea @Löh
-        throw new UnsupportedOperationException();
+        this.id = id;
     }
 
-    /**
-     * 
-     * @param truck
-     */
     public void truckArriving(Truck truck) {
         currentTruck = truck;
         sensor.truckArriving();
     }
 
     public void truckLeaving() {
-        // TODO - implement TruckUnloadingArea.truckLeaving @Löh
-        throw new UnsupportedOperationException();
+        currentTruck = null;
     }
 
     public int getId() {

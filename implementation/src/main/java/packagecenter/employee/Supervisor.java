@@ -1,7 +1,5 @@
 package packagecenter.employee;
 
-import packagecenter.employee.card.*;
-
 public class Supervisor extends Employee {
     private boolean isSenior;
 
@@ -9,17 +7,9 @@ public class Supervisor extends Employee {
         return this.isSenior;
     }
 
-    /**
-     * 
-     * @param id
-     * @param name
-     * @param idCard
-     * @param isSenior
-     */
-    public Supervisor(int id, String name, IIDCard idCard, boolean isSenior) {
-        super(id, name, idCard);
-        // TODO - implement Supervisor.Supervisor @Löh
-        throw new UnsupportedOperationException();
+    public Supervisor(int id, String name, boolean isSenior) {
+        super(id, name);
+        this.isSenior = isSenior;
     }
 
 }

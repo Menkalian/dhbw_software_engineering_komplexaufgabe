@@ -1,12 +1,15 @@
 package packagecenter.parts.sortingsystem.storage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TempStorageArea implements ITempStorageArea {
-    private final java.util.List<ITempStoragePosition> positions;
+    private final List<ITempStoragePosition> positions = new ArrayList<>(5);
 
-    public TempStorageArea(java.util.List<ITempStoragePosition> positions) {
-        this.positions = positions;
+    public TempStorageArea() {
+        for (int i = 0; i < 5; i++) {
+            positions.add(new TempStoragePosition());
+        }
     }
 
     public List<ITempStoragePosition> getPositions() {

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Box {
-    private String id;
-    private BoxLayer[] layers = {new BoxLayer(), new BoxLayer(), new BoxLayer(), new BoxLayer(), new BoxLayer()};
+    private final String id;
+    private final BoxLayer[] layers = {new BoxLayer(), new BoxLayer(), new BoxLayer(), new BoxLayer(), new BoxLayer()};
 
     public String getId() {
         return this.id;

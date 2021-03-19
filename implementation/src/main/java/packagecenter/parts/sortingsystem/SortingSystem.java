@@ -10,12 +10,12 @@ import java.util.List;
 
 public class SortingSystem implements ISortingSystem {
     private boolean locked;
-    private ITempStorageArea tempStorageArea;
+    private final ITempStorageArea tempStorageArea;
     private IUnboxingRobot robot;
-    private IEmptyBoxesStorage emptyBoxesStorage;
-    private IEmptyPalletStorage emptyPalletStorage;
-    private java.util.List<IStorageTrack> storageTracks;
-    private java.util.List<SortingTrack> sortingTracks;
+    private final IEmptyBoxesStorage emptyBoxesStorage;
+    private final IEmptyPalletStorage emptyPalletStorage;
+    private final List<IStorageTrack> storageTracks;
+    private final List<SortingTrack> sortingTracks;
 
     public IUnboxingRobot getRobot() {
         return this.robot;
@@ -26,17 +26,14 @@ public class SortingSystem implements ISortingSystem {
     }
 
     public void lock() {
-        // TODO - implement SortingSystem.lock @Löh
-        throw new UnsupportedOperationException();
+        locked = true;
     }
 
     public void unlock() {
-        // TODO - implement SortingSystem.unlock @Löh
-        throw new UnsupportedOperationException();
+        locked = false;
     }
 
     public SortingSystem(ITempStorageArea tempStorage, IEmptyBoxesStorage emptyBoxesStorage, IEmptyPalletStorage emptyPalletStorage, List<IStorageTrack> storageTracks, List<SortingTrack> sortingTracks) {
-        // TODO - implement SortingSystem.SortingSystem @Löh
         this.tempStorageArea = tempStorage;
         this.emptyBoxesStorage = emptyBoxesStorage;
         this.emptyPalletStorage = emptyPalletStorage;

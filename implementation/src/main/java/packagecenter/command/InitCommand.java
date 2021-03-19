@@ -1,7 +1,7 @@
 package packagecenter.command;
 
-import packagecenter.incomming.*;
 import packagecenter.incomming.Package;
+import packagecenter.incomming.*;
 import packagecenter.parts.controlling.controlunit.ICentralControlUnit;
 
 import java.io.BufferedReader;
@@ -10,7 +10,7 @@ import java.util.*;
 
 public class InitCommand implements ICommand {
 
-        public void execute(ICentralControlUnit controlUnit) {
+    public void execute(ICentralControlUnit controlUnit) {
 
         List<List<String>> records = new ArrayList<>();
         try (BufferedReader brPackage = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_package.csv")))) {
@@ -19,7 +19,7 @@ public class InitCommand implements ICommand {
                 String[] values = line.split(",");
                 records.add(Arrays.asList(values));
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
 
@@ -29,7 +29,7 @@ public class InitCommand implements ICommand {
         PackageType type;
         double weight;
 
-        int count=0;
+        int count = 0;
 
         List<Package> packages = new ArrayList<>();
         for (int i = 0; i < records.size(); i++) {
@@ -47,7 +47,7 @@ public class InitCommand implements ICommand {
             for (int j = 0; j < 25; j++) {
                 for (int k = 0; k < 10; k++) {
                     for (int l = 0; l < 10; l++) {
-                        if(contentChars.empty()){
+                        if (contentChars.empty()) {
                             System.out.println();
                         }
                         content[j][k][l] = contentChars.pop();
@@ -73,24 +73,24 @@ public class InitCommand implements ICommand {
                 String[] values = line.split(",");
                 records.add(Arrays.asList(values));
             }
-        } catch (Exception e){
-            System.out.println(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         List<Box> boxes = new ArrayList<>();
         HashSet<String> boxIds = new HashSet<>();
-        for (int i = 0; i < records.size(); i++) {
-            boxIds.add(records.get(i).get(0));
+        for (List<String> value : records) {
+            boxIds.add(value.get(0));
         }
-        for(String boxId : boxIds){
+        for (String boxId : boxIds) {
             boxes.add(new Box(boxId));
         }
-        for (int j = 0; j < records.size(); j++) {
+        for (List<String> list : records) {
             for (Box box : boxes) {
-                if(box.getId().equals(records.get(j).get(0))) {
-                    for (int i = 0; i < packages.size(); i++) {
-                        if(packages.get(i).getId().equals(records.get(j).get(1))){
-                            box.addPackageToBox(packages.get(i));
+                if (box.getId().equals(list.get(0))) {
+                    for (Package aPackage : packages) {
+                        if (aPackage.getId().equals(list.get(1))) {
+                            box.addPackageToBox(aPackage);
                         }
                     }
                 }
@@ -98,26 +98,26 @@ public class InitCommand implements ICommand {
         }
 
         records.clear();
-        try (BufferedReader brPallet = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_pallet.csv")))) {
+        try (BufferedReader brPallet = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("base_pallet.csv"))))) {
             String line;
             while ((line = brPallet.readLine()) != null) {
                 String[] values = line.split(",");
                 records.add(Arrays.asList(values));
             }
-        } catch (Exception e){
-            System.out.println(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         List<Pallet> Pallets = new ArrayList<>();
         for (int i = 0; i < 50; i++) {
             Pallets.add(new Pallet());
         }
-        for (int i = 0; i < records.size(); i++) {
-            for(Pallet pallet : Pallets){
-                if(Integer.valueOf(records.get(i).get(0)) == pallet.getId()) {
-                    for (int j = 0; j < boxes.size(); j++) {
-                        if(records.get(i).get(3).equals(boxes.get(j).getId())){
-                            pallet.addBoxToPallet(boxes.get(j), Integer.valueOf(records.get(i).get(1)), Integer.valueOf(records.get(i).get(2)));
+        for (List<String> stringList : records) {
+            for (Pallet pallet : Pallets) {
+                if (Integer.parseInt(stringList.get(0)) == pallet.getId()) {
+                    for (Box box : boxes) {
+                        if (stringList.get(3).equals(box.getId())) {
+                            pallet.addBoxToPallet(box, Integer.parseInt(stringList.get(1)), Integer.parseInt(stringList.get(2)));
                         }
                     }
                 }
@@ -125,37 +125,40 @@ public class InitCommand implements ICommand {
         }
 
         records.clear();
-        try (BufferedReader brTruck = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_truck.csv")))) {
+        try (BufferedReader brTruck = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("base_truck.csv"))))) {
             String line;
             while ((line = brTruck.readLine()) != null) {
                 String[] values = line.split(",");
                 records.add(Arrays.asList(values));
             }
-        } catch (Exception e){
-            System.out.println(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         List<Truck> Trucks = new ArrayList<>();
         HashSet<String> truckIds = new HashSet<>();
-        for (int i = 0; i < records.size(); i++) {
-            truckIds.add(records.get(i).get(0));
+        for (List<String> strings : records) {
+            truckIds.add(strings.get(0));
         }
-        for(String truckId : truckIds){
+        for (String truckId : truckIds) {
             Trucks.add(new Truck(truckId));
         }
-        for (int i = 0; i < records.size(); i++) {
-            for (Truck truck : Trucks){
-                if (records.get(i).get(0).equals(truck.getId())){
-                    for (int j = 0; j < Pallets.size(); j++) {
-                        if(Integer.valueOf(records.get(i).get(3)) == Pallets.get(j).getId()){
-                            truck.addPalletToTruck(Pallets.get(j), records.get(i).get(1), Integer.valueOf(records.get(i).get(2)));
+        for (List<String> record : records) {
+            for (Truck truck : Trucks) {
+                if (record.get(0).equals(truck.getId())) {
+                    for (Pallet pallet : Pallets) {
+                        if (Integer.parseInt(record.get(3)) == pallet.getId()) {
+                            truck.addPalletToTruck(pallet, record.get(1), Integer.parseInt(record.get(2)));
                         }
                     }
                 }
             }
         }
-        // TODO - Park Trucks in TruckWaitingArea
 
+        Truck[] truckArray = controlUnit.getPackageSortingCenter().getWaitingArea().getTrucks();
+        for (int i = 0; i < Trucks.size(); i++) {
+            truckArray[i] = Trucks.get(i);
+        }
     }
 
     public CommandType getType() {

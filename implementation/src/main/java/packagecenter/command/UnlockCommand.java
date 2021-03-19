@@ -4,10 +4,6 @@ import packagecenter.parts.controlling.controlunit.ICentralControlUnit;
 
 public class UnlockCommand implements ICommand {
 
-    /**
-     * 
-     * @param controlUnit
-     */
     public void execute(ICentralControlUnit controlUnit) {
         controlUnit.getPackageSortingCenter().getSortingSystem().unlock();
     }

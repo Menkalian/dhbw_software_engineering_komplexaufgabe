@@ -3,7 +3,7 @@ package packagecenter.parts.delivery.waiting;
 import packagecenter.incomming.*;
 
 public class TruckWaitingArea implements ITruckWaitingArea {
-    private Truck[] trucks;
+    private final Truck[] trucks;
 
     public TruckWaitingArea(int capacity) {
         trucks = new Truck[capacity];

@@ -1,23 +1,28 @@
 package packagecenter.parts.controlling.controlunit;
 
-import packagecenter.command.*;
+import packagecenter.command.CommandType;
+import packagecenter.command.ICommand;
 import packagecenter.employee.*;
-import packagecenter.employee.card.IDCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ControlUnitProxy implements IControlUnit {
-    private IControlUnit controlUnit;
-    private java.util.Map<Class<?>, java.util.List<CommandType>> permissions;
+    private final IControlUnit controlUnit;
+    private final java.util.Map<Class<?>, java.util.List<CommandType>> permissions;
 
 
     public void executeCommand(ICommand command, Employee user) {
-        if(permissions.get(user.getClass()).contains(command.getType())){
+        if (user == null) {
+            throw new InsufficientRightsException();
+        }
+
+        if (permissions.get(user.getClass()).contains(command.getType())) {
             controlUnit.executeCommand(command, user);
         } else throw new InsufficientRightsException();
     }
+
     //Hi hier ist solid
     public ControlUnitProxy(IControlUnit nextControlUnit) {
         controlUnit = nextControlUnit;
@@ -49,7 +54,7 @@ public class ControlUnitProxy implements IControlUnit {
         permissions.put(DataAnalyst.class, commands);
     }
 
-    public class InsufficientRightsException extends RuntimeException {
+    public static class InsufficientRightsException extends RuntimeException {
     }
 
 }

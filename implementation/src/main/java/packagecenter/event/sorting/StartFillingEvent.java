@@ -1,16 +1,22 @@
 package packagecenter.event.sorting;
 
-import packagecenter.event.*;
+import packagecenter.event.Event;
+import packagecenter.parts.IPackageSortingCenter;
 
 public class StartFillingEvent extends Event {
-    private int storageTrackNumber;
+    private IPackageSortingCenter packageSortingCenter;
+    private int currentTrackId;
 
-    /**
-     * 
-     * @param storageTrackNumber
-     */
-    public StartFillingEvent(int storageTrackNumber) {
-        // TODO - implement StartFillingEvent.StartFillingEvent @Löh
-        throw new UnsupportedOperationException();
+    public IPackageSortingCenter getPackageSortingCenter() {
+        return packageSortingCenter;
+    }
+
+    public int getCurrentTrackId() {
+        return currentTrackId;
+    }
+
+    public StartFillingEvent(IPackageSortingCenter packageSortingCenter, int currentTrackId) {
+        this.packageSortingCenter = packageSortingCenter;
+        this.currentTrackId = currentTrackId;
     }
 }

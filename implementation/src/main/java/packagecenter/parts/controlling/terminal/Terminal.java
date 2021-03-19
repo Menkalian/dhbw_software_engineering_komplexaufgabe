@@ -1,31 +1,23 @@
 package packagecenter.parts.controlling.terminal;
 
 import packagecenter.command.ICommand;
-import packagecenter.employee.*;
-import packagecenter.parts.controlling.controlunit.*;
+import packagecenter.employee.Employee;
+import packagecenter.parts.controlling.controlunit.IControlUnit;
 
 public class Terminal implements ITerminal {
-    private ICardReader cardReader;
-    private ITouchPad touchPad;
+    private final ICardReader cardReader;
+    private final ITouchPad touchPad;
     private Employee currentEmployee;
-    private IControlUnit controlUnit;
+    private final IControlUnit controlUnit;
 
-    /**
-     * 
-     * @param command
-     */
     public void sendCommand(ICommand command) {
-        // TODO - implement Terminal.sendCommand @Löh
-        throw new UnsupportedOperationException();
+        controlUnit.executeCommand(command, currentEmployee);
     }
 
-    /**
-     * 
-     * @param controlUnit
-     */
     public Terminal(IControlUnit controlUnit) {
-        // TODO - implement Terminal.Terminal @Löh
-        throw new UnsupportedOperationException();
+        this.controlUnit = controlUnit;
+        touchPad = new TouchPad(this);
+        cardReader = new CardReader(this);
     }
 
     public ICardReader getCardReader() {
@@ -36,10 +28,6 @@ public class Terminal implements ITerminal {
         return this.touchPad;
     }
 
-    /**
-     * 
-     * @param employee
-     */
     public void setCurrentEmployee(Employee employee) {
         this.currentEmployee = employee;
     }

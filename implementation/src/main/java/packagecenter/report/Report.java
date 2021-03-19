@@ -8,37 +8,33 @@ import java.util.List;
 import java.util.Map;
 
 public class Report implements IReport {
-    private java.time.LocalDateTime currentTime;
-    private int completedTruckloads;
-    private java.util.Map<PackageType, Integer> amountPackages;
-    private java.util.List<Package> dangerousPackages;
+    private final LocalDateTime currentTime;
+    private final int completedTruckloads;
+    private final Map<PackageType, Integer> amountPackages;
+    private final List<Package> dangerousPackages;
 
+    @Override
     public String toString() {
-        // TODO - implement Report.toString @Löh
-        throw new UnsupportedOperationException();
+        return "Report{" +
+                "currentTime=" + currentTime +
+                ", completedTruckloads=" + completedTruckloads +
+                ", amountPackages=" + amountPackages +
+                ", dangerousPackages=" + dangerousPackages +
+                '}';
     }
 
-    /**
-     * 
-     * @param type
-     */
     public Integer getAmountPackages(PackageType type) {
-        // TODO - implement Report.getAmountPackages @Löh
-        throw new UnsupportedOperationException();
+        return amountPackages.get(type);
     }
 
-    /**
-     * 
-     * @param currentTime
-     * @param completedTruckloads
-     * @param amountPackages
-     */
-    private Report(java.time.LocalDateTime currentTime, int completedTruckloads, java.util.Map<PackageType, Integer> amountPackages) {
-        // TODO - implement Report.Report @Löh
-        throw new UnsupportedOperationException();
+    private Report(java.time.LocalDateTime currentTime, int completedTruckloads, java.util.Map<PackageType, Integer> amountPackages, List<Package> dangerousPackages) {
+        this.currentTime = currentTime;
+        this.completedTruckloads = completedTruckloads;
+        this.amountPackages = amountPackages;
+        this.dangerousPackages = dangerousPackages;
     }
 
-    public java.time.LocalDateTime getCurrentTime() {
+    public LocalDateTime getCurrentTime() {
         return this.currentTime;
     }
 
@@ -47,51 +43,35 @@ public class Report implements IReport {
     }
 
     public Map<PackageType, Integer> getAmountPackages() {
-        // TODO - implement Report.getAmountPackages @Löh
-        throw new UnsupportedOperationException();
+        return amountPackages;
     }
 
     public List<Package> getDangerousPackages() {
-        // TODO - implement Report.getDangerousPackages @Löh
-        throw new UnsupportedOperationException();
+        return dangerousPackages;
     }
 
-    public class Builder {
+    public static class Builder {
         private int completedTruckloads;
-        private java.util.Map<PackageType, Integer> amountPackages;
-        private java.util.List<Package> dangerousPackages;
+        private Map<PackageType, Integer> amountPackages;
+        private List<Package> dangerousPackages;
 
-        /**
-         * 
-         * @param amount
-         */
         public Builder completedTruckloads(int amount) {
-            // TODO - implement Builder.completedTruckloads @Löh
-            throw new UnsupportedOperationException();
+            completedTruckloads = amount;
+            return this;
         }
 
-        /**
-         * 
-         * @param type
-         * @param amount
-         */
         public Builder amountPackages(PackageType type, int amount) {
-            // TODO - implement Builder.amountPackages @Löh
-            throw new UnsupportedOperationException();
+            amountPackages.put(type, amount);
+            return this;
         }
 
-        /**
-         * 
-         * @param dangerous
-         */
         public Builder dangerousPackage(Package dangerous) {
-            // TODO - implement Builder.dangerousPackage @Löh
-            throw new UnsupportedOperationException();
+            dangerousPackages.add(dangerous);
+            return this;
         }
 
         public Report build() {
-            // TODO - implement Builder.build @Löh
-            throw new UnsupportedOperationException();
+            return new Report(LocalDateTime.now(), completedTruckloads, amountPackages, dangerousPackages);
         }
 
     }

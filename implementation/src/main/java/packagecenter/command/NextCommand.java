@@ -2,12 +2,10 @@ package packagecenter.command;
 
 import packagecenter.parts.controlling.controlunit.ICentralControlUnit;
 
+import java.util.Random;
+
 public class NextCommand implements ICommand {
 
-    /**
-     * 
-     * @param controlUnit
-     */
     public void execute(ICentralControlUnit controlUnit) {
         Random random = new Random();
         for (int i = 0; i < controlUnit.getPackageSortingCenter().getWaitingArea().getTrucks().length; i++) {

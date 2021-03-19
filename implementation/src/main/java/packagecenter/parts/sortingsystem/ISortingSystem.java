@@ -20,7 +20,7 @@ public interface ISortingSystem {
 
     IEmptyPalletStorage getEmptyPalletStorage();
 
-    java.util.List<IStorageTrack> getStorageTracks();
+    List<IStorageTrack> getStorageTracks();
 
     List<SortingTrack> getSortingTracks();
 

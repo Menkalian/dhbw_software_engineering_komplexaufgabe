@@ -1,6 +1,7 @@
 package packagecenter.parts.controlling.controlunit;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import packagecenter.command.ICommand;
 import packagecenter.employee.Employee;
 import packagecenter.event.*;

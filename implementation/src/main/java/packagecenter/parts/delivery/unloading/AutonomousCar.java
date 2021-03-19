@@ -1,5 +1,6 @@
 package packagecenter.parts.delivery.unloading;
 
+import com.google.common.eventbus.Subscribe;
 import packagecenter.parts.controlling.controlunit.*;
 import packagecenter.incomming.*;
 import packagecenter.event.delivery.*;
@@ -17,17 +18,22 @@ public class AutonomousCar extends Subscriber implements IAutonomousCar {
 
     @Subscribe
     public void onUnloadTruck(UnloadTruckEvent event) {
-        // TODO - implement AutonomousCar.onUnloadTruck @Löh
-        throw new UnsupportedOperationException();
+        if(event.getCarId().equals(id)){
+            event.getPackageSortingCenter().getParkingZone().carLeaving(currentSpotId);
+            List<Pallet> palletList = event.getPackageSortingCenter().getUnloadingArea(event.getAreaId()).getCurrentTruck().getPallets();
+            for (int i = 0; i < 5; i++) {
+                for (int j = 0; j < 2; j++) {
+                    event.getPackageSortingCenter().getSortingSystem().getTempStorageArea().getPositions().get(i).store(palletList.remove(event.getPackageSortingCenter().getSortingSystem().getTempStorageArea().getPositions().size()-1));
+                }
+            }
+            event.getPackageSortingCenter().getParkingZone().parkCar(this);
+            TruckUnloadedEvent truckUnloadedEvent = new TruckUnloadedEvent();
+            event.getPackageSortingCenter().getCentralControlUnit().publish(truckUnloadedEvent);
+        }
     }
 
-    /**
-     * 
-     * @param id
-     */
     public AutonomousCar(String id) {
-        // TODO - implement AutonomousCar.AutonomousCar @Löh
-        throw new UnsupportedOperationException();
+        this.id = id;
     }
 
     @Override

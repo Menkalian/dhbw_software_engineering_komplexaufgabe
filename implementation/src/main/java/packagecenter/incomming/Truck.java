@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Truck {
-    private String id;
-    private TruckTrailer trailer;
+    private final String id;
+    private final TruckTrailer trailer;
 
     public String getId() {
         return this.id;
