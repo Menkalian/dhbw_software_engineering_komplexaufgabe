@@ -45,7 +45,7 @@ public class Pallet {
         }
     }
 
-    public boolean addBoxToPallet(Box box, int position, int level) {
+    public boolean addBox(Box box, int position, int level) {
         if (position == 0) {
             if (positions[0][0].addBoxToPalletPosition(box, level))
                 return true;

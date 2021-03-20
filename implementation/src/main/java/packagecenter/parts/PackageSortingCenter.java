@@ -12,6 +12,7 @@ import packagecenter.parts.delivery.waiting.ParkingZone;
 import packagecenter.parts.delivery.waiting.TruckWaitingArea;
 import packagecenter.parts.sortingsystem.ISortingSystem;
 import packagecenter.parts.sortingsystem.SortingSystem;
+import packagecenter.parts.sortingsystem.UnboxingRobot;
 import packagecenter.parts.sortingsystem.storage.EmptyBoxesStorage;
 import packagecenter.parts.sortingsystem.storage.EmptyPalletsStorage;
 import packagecenter.parts.sortingsystem.storage.IEmptyBoxesStorage;
@@ -102,22 +103,30 @@ public class PackageSortingCenter implements IPackageSortingCenter {
             ITempStorageArea tempStorageArea = new TempStorageArea();
             IEmptyBoxesStorage emptyBoxesStorage = new EmptyBoxesStorage();
             IEmptyPalletStorage emptyPalletStorage = new EmptyPalletsStorage();
+
             List<IStorageTrack> storageTracks = new ArrayList<>();
             for (int i = 0; i < 8; i++) {
                 StorageTrack storageTrack = new StorageTrack(new StorageTrackSensor());
                 storageTracks.add(storageTrack);
             }
+
             List<SortingTrack> sortingTracks = new ArrayList<>();
-            sortingTracks.add(new SortingTrackNormal(new SortingTrackExpress(new SortingTrackValue(null))));
+            SortingTrack value = new SortingTrackValue(null);
+            SortingTrack express = new SortingTrackExpress(value);
+            SortingTrack normal = new SortingTrackNormal(express);
+            sortingTracks.add(normal);
+            sortingTracks.add(express);
+            sortingTracks.add(value);
 
-
-            ISortingSystem sortingSystem = new SortingSystem(tempStorageArea, emptyBoxesStorage, emptyPalletStorage, storageTracks, sortingTracks);
+            SortingSystem sortingSystem = new SortingSystem(tempStorageArea, emptyBoxesStorage, emptyPalletStorage, storageTracks, sortingTracks);
+            sortingSystem.setRobot(new UnboxingRobot(sortingSystem));
 
             int amountUnloadingZones = 7;
             List<ITruckUnloadingArea> unloadingAreas = new ArrayList<>(amountUnloadingZones);
             for (int i = 0; i < amountUnloadingZones; i++) {
                 ITruckUnloadingArea area = new TruckUnloadingArea(i);
                 area.getSensor().addListener(() -> controlUnit.publish(new TruckArrivingEvent(area.getId())));
+                unloadingAreas.add(area);
             }
 
             ITruckWaitingArea waitingArea = new TruckWaitingArea(capacityWaitingArea);

@@ -38,7 +38,7 @@ public class Box {
             return this.rightSide;
         }
 
-        public boolean addPackageToBoxLayer(Package pack) {
+        public boolean addPackage(Package pack) {
             if(leftSide.size()<4){
                 leftSide.add(pack);
                 return true;}
@@ -49,9 +49,9 @@ public class Box {
         }
     }
 
-    public boolean addPackageToBox(Package pack) {
+    public boolean addPackage(Package pack) {
         for(int i = 0; i<5; i++) {
-            if(layers[i].addPackageToBoxLayer(pack)) {
+            if(layers[i].addPackage(pack)) {
                return true;
             }
         }

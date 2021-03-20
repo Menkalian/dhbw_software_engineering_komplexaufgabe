@@ -51,7 +51,7 @@ public class Truck {
         trailer = new TruckTrailer();
     }
 
-    public boolean addPalletToTruck(Pallet pallet, String side, int pos){
+    public boolean addPallet(Pallet pallet, String side, int pos){
         if(pos>=0 && pos<5) {
             if (side.equals("left")){
                 trailer.leftSide[pos] = pallet;

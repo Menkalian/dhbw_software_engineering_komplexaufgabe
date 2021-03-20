@@ -1,163 +1,142 @@
 package packagecenter.command;
 
+import packagecenter.incomming.Box;
 import packagecenter.incomming.Package;
-import packagecenter.incomming.*;
+import packagecenter.incomming.PackageType;
+import packagecenter.incomming.Pallet;
+import packagecenter.incomming.Truck;
 import packagecenter.parts.controlling.controlunit.ICentralControlUnit;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class InitCommand implements ICommand {
 
     public void execute(ICentralControlUnit controlUnit) {
+        Map<String, Package> packages;
+        final Map<String, Box> boxes = new HashMap<>(); // Final for synchronization
+        Map<Integer, Pallet> pallets = new HashMap<>();
+        Map<String, Truck> trucks = new HashMap<>();
 
-        List<List<String>> records = new ArrayList<>();
-        try (BufferedReader brPackage = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_package.csv")))) {
-            String line;
-            while ((line = brPackage.readLine()) != null) {
-                String[] values = line.split(",");
-                records.add(Arrays.asList(values));
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        try {
+            InputStream packageCsv = getClass().getClassLoader().getResourceAsStream("base_package.csv");
+            if (packageCsv != null) {
+                String packageString = new String(packageCsv.readAllBytes());
+                packages = packageString.lines().map(line -> {
+                    String[] segments = line.split(",");
 
-        String id;
-        char[][][] content = new char[25][10][10];
-        String zipCode;
-        PackageType type;
-        double weight;
+                    String id = segments[0];
+                    String zipCode = segments[2];
+                    PackageType type = PackageType.valueOf(segments[3]);
+                    double weight = Double.parseDouble(segments[4]);
 
-        int count = 0;
+                    char[] contentRaw = segments[1].toCharArray();
+                    char[][][] content = new char[25][10][10];
 
-        List<Package> packages = new ArrayList<>();
-        for (int i = 0; i < records.size(); i++) {
-
-            id = records.get(i).get(0);
-
-            Stack<Character> tmpContent = new Stack<>();
-            for (int j = 0; j < records.get(i).get(1).length(); j++) {
-                tmpContent.add(records.get(i).get(1).charAt(j));
-            }
-            Stack<Character> contentChars = new Stack<>();
-            while (!tmpContent.empty()) {
-                contentChars.add(tmpContent.pop());
-            }
-            for (int j = 0; j < 25; j++) {
-                for (int k = 0; k < 10; k++) {
-                    for (int l = 0; l < 10; l++) {
-                        if (contentChars.empty()) {
-                            System.out.println();
-                        }
-                        content[j][k][l] = contentChars.pop();
-                    }
-                }
-            }
-
-            zipCode = records.get(i).get(2);
-
-            type = PackageType.valueOf(records.get(i).get(3));
-
-            weight = Double.valueOf(records.get(i).get(4));
-
-            Package pack = new Package(id, content, zipCode, type, weight);
-
-            packages.add(pack);
-        }
-
-        records.clear();
-        try (BufferedReader brBox = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("base_box.csv")))) {
-            String line;
-            while ((line = brBox.readLine()) != null) {
-                String[] values = line.split(",");
-                records.add(Arrays.asList(values));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        List<Box> boxes = new ArrayList<>();
-        HashSet<String> boxIds = new HashSet<>();
-        for (List<String> value : records) {
-            boxIds.add(value.get(0));
-        }
-        for (String boxId : boxIds) {
-            boxes.add(new Box(boxId));
-        }
-        for (List<String> list : records) {
-            for (Box box : boxes) {
-                if (box.getId().equals(list.get(0))) {
-                    for (Package aPackage : packages) {
-                        if (aPackage.getId().equals(list.get(1))) {
-                            box.addPackageToBox(aPackage);
+                    for (int i = 0 ; i < 25 ; i++) {
+                        for (int j = 0 ; j < 10 ; j++) {
+                            content[i][j] = Arrays.copyOfRange(contentRaw, (i * 10 + j) * 10, ((i * 10 + j) * 10) + 10);
                         }
                     }
-                }
-            }
-        }
 
-        records.clear();
-        try (BufferedReader brPallet = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("base_pallet.csv"))))) {
-            String line;
-            while ((line = brPallet.readLine()) != null) {
-                String[] values = line.split(",");
-                records.add(Arrays.asList(values));
+                    return new Package(id, content, zipCode, type, weight);
+                }).collect(Collectors.toMap(Package::getId, it -> it));
+            } else {
+                throw new RuntimeException("Could not parse packages CSV");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        List<Pallet> Pallets = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            Pallets.add(new Pallet());
-        }
-        for (List<String> stringList : records) {
-            for (Pallet pallet : Pallets) {
-                if (Integer.parseInt(stringList.get(0)) == pallet.getId()) {
-                    for (Box box : boxes) {
-                        if (stringList.get(3).equals(box.getId())) {
-                            pallet.addBoxToPallet(box, Integer.parseInt(stringList.get(1)), Integer.parseInt(stringList.get(2)));
+            InputStream boxCsv = getClass().getClassLoader().getResourceAsStream("base_box.csv");
+            if (boxCsv != null) {
+                String boxesString = new String(boxCsv.readAllBytes());
+
+                boxesString.lines().forEach(line -> {
+                    String[] split = line.split(",");
+                    String id = split[0];
+                    Box toAdd;
+
+                    synchronized (boxes) {
+                        if (boxes.containsKey(id)) {
+                            toAdd = boxes.get(id);
+                        } else {
+                            toAdd = new Box(id);
+                            boxes.put(id, toAdd);
                         }
                     }
-                }
-            }
-        }
 
-        records.clear();
-        try (BufferedReader brTruck = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("base_truck.csv"))))) {
-            String line;
-            while ((line = brTruck.readLine()) != null) {
-                String[] values = line.split(",");
-                records.add(Arrays.asList(values));
+                    toAdd.addPackage(packages.get(split[1]));
+                });
+            } else {
+                throw new RuntimeException("Could not parse box CSV");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        List<Truck> Trucks = new ArrayList<>();
-        HashSet<String> truckIds = new HashSet<>();
-        for (List<String> strings : records) {
-            truckIds.add(strings.get(0));
-        }
-        for (String truckId : truckIds) {
-            Trucks.add(new Truck(truckId));
-        }
-        for (List<String> record : records) {
-            for (Truck truck : Trucks) {
-                if (record.get(0).equals(truck.getId())) {
-                    for (Pallet pallet : Pallets) {
-                        if (Integer.parseInt(record.get(3)) == pallet.getId()) {
-                            truck.addPalletToTruck(pallet, record.get(1), Integer.parseInt(record.get(2)));
-                        }
+            InputStream palletCsv = getClass().getClassLoader().getResourceAsStream("base_pallet.csv");
+            if (palletCsv != null) {
+                String palletsString = new String(palletCsv.readAllBytes());
+
+                palletsString.lines().forEachOrdered(line -> { // forEachOrdered is synchronous
+                    String[] split = line.split(",");
+                    int id = Integer.parseInt(split[0]);
+                    Pallet toAdd;
+
+                    if (pallets.containsKey(id)) {
+                        toAdd = pallets.get(id);
+                    } else {
+                        toAdd = new Pallet();
+                        pallets.put(id, toAdd);
                     }
-                }
+
+                    toAdd.addBox(
+                            boxes.get(split[3]),
+                            Integer.parseInt(split[1]),
+                            Integer.parseInt(split[2])
+                    );
+                });
+            } else {
+                throw new RuntimeException("Could not parse pallet CSV");
             }
+
+            InputStream truckCsv = getClass().getClassLoader().getResourceAsStream("base_truck.csv");
+            if (truckCsv != null) {
+                String trucksString = new String(truckCsv.readAllBytes());
+
+                trucksString.lines().forEachOrdered(line -> { // forEachOrdered is synchronous
+                    String[] split = line.split(",");
+                    String id = split[0];
+                    Truck toAdd;
+
+                    if (trucks.containsKey(id)) {
+                        toAdd = trucks.get(id);
+                    } else {
+                        toAdd = new Truck(id);
+                        trucks.put(id, toAdd);
+                    }
+
+                    toAdd.addPallet(
+                            pallets.get(Integer.parseInt(split[3])),
+                            split[1],
+                            Integer.parseInt(split[2])
+                    );
+                });
+            } else {
+                throw new RuntimeException("Could not parse pallet CSV");
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
 
+        // Take the reference to the trucks-array and fill it
+        List<Truck> truckList = new ArrayList<>(trucks.values());
         Truck[] truckArray = controlUnit.getPackageSortingCenter().getWaitingArea().getTrucks();
-        for (int i = 0; i < Trucks.size(); i++) {
-            truckArray[i] = Trucks.get(i);
+
+        for (int i = 0 ; i < truckList.size() ; i++) {
+            truckArray[i] = truckList.get(i);
         }
     }
 

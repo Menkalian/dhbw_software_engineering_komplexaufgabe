@@ -2,7 +2,6 @@ import packagecenter.command.InitCommand;
 import packagecenter.incomming.Box;
 import packagecenter.incomming.PackageType;
 import packagecenter.incomming.Package;
-import packagecenter.incomming.Pallet;
 import packagecenter.parts.controlling.controlunit.CentralControlUnit;
 
 public class testing {
@@ -28,10 +27,10 @@ public class testing {
         Box box4 = new Box("4");
 
         for(Package pack : packs) {
-            box1.addPackageToBox(pack);
-            box2.addPackageToBox(pack);
-            box3.addPackageToBox(pack);
-            box4.addPackageToBox(pack);
+            box1.addPackage(pack);
+            box2.addPackage(pack);
+            box3.addPackage(pack);
+            box4.addPackage(pack);
         }
 
         InitCommand command = new InitCommand();
