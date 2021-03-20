@@ -5,6 +5,7 @@ import packagecenter.event.delivery.TruckUnloadedEvent;
 import packagecenter.event.delivery.UnloadTruckEvent;
 import packagecenter.incomming.Pallet;
 import packagecenter.parts.controlling.controlunit.Subscriber;
+import packagecenter.parts.sortingsystem.storage.ITempStorageArea;
 
 import java.util.List;
 
@@ -23,13 +24,14 @@ public class AutonomousCar extends Subscriber implements IAutonomousCar {
 
     @Subscribe
     public void onUnloadTruck(UnloadTruckEvent event) {
-        System.out.println("Unloading Truck");
         if (event.getCarId().equals(id)) {
             event.getPackageSortingCenter().getParkingZone().carLeaving(currentSpotId);
             List<Pallet> palletList = event.getPackageSortingCenter().getUnloadingArea(event.getAreaId()).getCurrentTruck().getPallets();
             for (int i = 0 ; i < 5 ; i++) {
                 for (int j = 0 ; j < 2 ; j++) {
-                    event.getPackageSortingCenter().getSortingSystem().getTempStorageArea().getPositions().get(i).store(palletList.remove(event.getPackageSortingCenter().getSortingSystem().getTempStorageArea().getPositions().size() - 1));
+                    ITempStorageArea tempStorageArea = event.getPackageSortingCenter().getSortingSystem().getTempStorageArea();
+
+                    tempStorageArea.getPositions().get(i).store(palletList.remove(0));
                 }
             }
             event.getPackageSortingCenter().getParkingZone().parkCar(this);

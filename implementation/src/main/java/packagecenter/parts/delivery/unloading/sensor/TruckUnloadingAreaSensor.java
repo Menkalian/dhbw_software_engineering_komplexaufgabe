@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TruckUnloadingAreaSensor implements ITruckUnloadingAreaSensor {
     private final List<ISensorListener> listeners = new LinkedList<>();
-    private boolean isActivated;
+    private boolean isActivated = true; // Activated by default
 
     public void addListener(ISensorListener listener) {
         listeners.add(listener);

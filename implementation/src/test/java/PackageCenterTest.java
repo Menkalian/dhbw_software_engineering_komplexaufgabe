@@ -1,3 +1,4 @@
+import com.google.common.eventbus.Subscribe;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
@@ -5,10 +6,13 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import packagecenter.command.InitCommand;
+import packagecenter.command.NextCommand;
+import packagecenter.event.delivery.TruckUnloadedEvent;
 import packagecenter.incomming.Pallet;
 import packagecenter.incomming.Truck;
 import packagecenter.parts.PackageSortingCenter;
 import packagecenter.parts.controlling.controlunit.CentralControlUnit;
+import packagecenter.parts.controlling.controlunit.Subscriber;
 import packagecenter.parts.delivery.unloading.IAutonomousCar;
 import packagecenter.parts.delivery.unloading.TruckUnloadingArea;
 import packagecenter.parts.delivery.waiting.ParkingZone;
@@ -17,6 +21,7 @@ import packagecenter.parts.sortingsystem.SortingSystem;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,10 +33,7 @@ public class PackageCenterTest {
     void setupPackageSortingCenter() {
         center = new PackageSortingCenter.Builder()
                 .capacityWaitingArea(5)
-                .amountUnloadingAreas(7)
-                .amountAutonomousCarSpots(5)
                 .build();
-
     }
 
     @Test
@@ -84,19 +86,35 @@ public class PackageCenterTest {
     @Order(2)
     void truckUnloadingTest() {
         // Init with the InitCommand
-        new InitCommand().execute(center.getCentralControlUnit());
+        center.getCentralControlUnit().executeCommand(new InitCommand(),"Supervisor");
+
         Truck truck = center.getWaitingArea().getTrucks()[0];
-        center.getUnloadingAreas().get(0).truckArriving(truck);
+        AtomicBoolean truckUnloadedFired = new AtomicBoolean();
 
-        for (Pallet pallet : truck.getTrailer().getLeftSide()) {
-            assertNull(pallet);
-        }
-        for (Pallet pallet : truck.getTrailer().getRightSide()) {
-            assertNull(pallet);
-        }
+        center.getCentralControlUnit().subscribe(new Subscriber() {
+            @Override
+            public String getId() {
+                return "Test-Executor Subscriber";
+            }
 
-        // Take two pallets from each position to verify they are there.
-        center.getSortingSystem().getTempStorageArea().getPositions().forEach(pos -> assertNotNull(pos.take()));
-        center.getSortingSystem().getTempStorageArea().getPositions().forEach(pos -> assertNotNull(pos.take()));
+            @Subscribe
+            public void onTruckUnloadedEvent(TruckUnloadedEvent event) {
+                truckUnloadedFired.set(true);
+
+                for (Pallet pallet : truck.getTrailer().getLeftSide()) {
+                    assertNull(pallet);
+                }
+                for (Pallet pallet : truck.getTrailer().getRightSide()) {
+                    assertNull(pallet);
+                }
+
+                // Take two pallets from each position to verify they are there.
+                center.getSortingSystem().getTempStorageArea().getPositions().forEach(pos -> assertNotNull(pos.take()));
+                center.getSortingSystem().getTempStorageArea().getPositions().forEach(pos -> assertNotNull(pos.take()));
+            }
+        });
+
+        center.getCentralControlUnit().executeCommand(new NextCommand(),"Supervisor");
+        assertTrue(truckUnloadedFired.get());
     }
 }

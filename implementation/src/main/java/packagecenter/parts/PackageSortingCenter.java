@@ -38,16 +38,34 @@ public class PackageSortingCenter implements IPackageSortingCenter {
     private final IParkingZone parkingZone;
     private int completedTruckloads;
 
+    private PackageSortingCenter(ICentralControlUnit centralControlUnit, IParkingZone parkingZone, ISortingSystem sortingSystem, java.util.List<ITruckUnloadingArea> unloadingAreas, ITruckWaitingArea waitingArea) {
+        this.centralControlUnit = centralControlUnit;
+        this.parkingZone = parkingZone;
+        this.sortingSystem = sortingSystem;
+        this.unloadingAreas = unloadingAreas;
+        this.waitingArea = waitingArea;
+
+        centralControlUnit.setPackageSortingCenter(this);
+    }
+
     public List<ITruckUnloadingArea> getUnloadingAreas() {
         return this.unloadingAreas;
+    }
+
+    public ICentralControlUnit getCentralControlUnit() {
+        return this.centralControlUnit;
+    }
+
+    public ITruckUnloadingArea getUnloadingArea(int index) {
+        return unloadingAreas.get(index);
     }
 
     public ITruckWaitingArea getWaitingArea() {
         return this.waitingArea;
     }
 
-    public IParkingZone getParkingZone() {
-        return this.parkingZone;
+    public ISortingSystem getSortingSystem() {
+        return this.sortingSystem;
     }
 
     public int getCompletedTruckloads() {
@@ -59,26 +77,8 @@ public class PackageSortingCenter implements IPackageSortingCenter {
         completedTruckloads++;
     }
 
-    private PackageSortingCenter(ICentralControlUnit centralControlUnit, IParkingZone parkingZone, ISortingSystem sortingSystem, java.util.List<ITruckUnloadingArea> unloadingAreas, ITruckWaitingArea waitingArea) {
-        this.centralControlUnit = centralControlUnit;
-        this.parkingZone = parkingZone;
-        this.sortingSystem = sortingSystem;
-        this.unloadingAreas = unloadingAreas;
-        this.waitingArea = waitingArea;
-
-        centralControlUnit.setPackageSortingCenter(this);
-    }
-
-    public ICentralControlUnit getCentralControlUnit() {
-        return this.centralControlUnit;
-    }
-
-    public ITruckUnloadingArea getUnloadingArea(int index) {
-        return unloadingAreas.get(index);
-    }
-
-    public ISortingSystem getSortingSystem() {
-        return this.sortingSystem;
+    public IParkingZone getParkingZone() {
+        return this.parkingZone;
     }
 
     public static class Builder {
@@ -94,7 +94,7 @@ public class PackageSortingCenter implements IPackageSortingCenter {
 
             int amountParkingSpots = 5;
             IParkingZone parkingZone = new ParkingZone(amountParkingSpots);
-            for (int i = 0; i < amountParkingSpots; i++) {
+            for (int i = 0 ; i < amountParkingSpots ; i++) {
                 AutonomousCar car = new AutonomousCar(String.format("AC%02d", i));
                 car.setCurrentSpotId(parkingZone.parkCar(car));
                 controlUnit.subscribe(car);
@@ -105,7 +105,7 @@ public class PackageSortingCenter implements IPackageSortingCenter {
             IEmptyPalletStorage emptyPalletStorage = new EmptyPalletsStorage();
 
             List<IStorageTrack> storageTracks = new ArrayList<>();
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0 ; i < 8 ; i++) {
                 StorageTrack storageTrack = new StorageTrack(new StorageTrackSensor());
                 storageTracks.add(storageTrack);
             }
@@ -123,9 +123,11 @@ public class PackageSortingCenter implements IPackageSortingCenter {
 
             int amountUnloadingZones = 7;
             List<ITruckUnloadingArea> unloadingAreas = new ArrayList<>(amountUnloadingZones);
-            for (int i = 0; i < amountUnloadingZones; i++) {
+            for (int i = 0 ; i < amountUnloadingZones ; i++) {
                 ITruckUnloadingArea area = new TruckUnloadingArea(i);
-                area.getSensor().addListener(() -> controlUnit.publish(new TruckArrivingEvent(area.getId())));
+                area.getSensor().addListener(() -> {
+                    controlUnit.publish(new TruckArrivingEvent(area.getId()));
+                });
                 unloadingAreas.add(area);
             }
 
